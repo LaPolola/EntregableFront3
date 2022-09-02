@@ -15,17 +15,19 @@
 import { useState } from 'react';
 
 export default function Item({ producto, incrementar}) {  
-  const [stock, setStock] = useState(producto.stock);
-  const restarStock = () => { 
-    setStock(stock - 1);
-    incrementar();
+  const [product, setProduct] = useState(producto);
+  const restarStock = () => {
+    if (product.stock > 0) {
+      setProduct({ ...product, stock: product.stock - 1 });
+      incrementar();
+    }
   }
   return (
     <div className='producto'>
-      <h3>{ producto.producto.nombre }</h3>
-      <p>{ producto.producto.descripcion }</p>
-      <h5>En stock: { stock > 0 ? stock : <span>agotado</span> }</h5>
-      <button onClick={ restarStock } disabled={ stock<1 }>{ stock > 0 ? 'COMPRAR' : 'SIN STOCK' }</button>
+      <h3>{ product.producto.nombre }</h3>
+      <p>{ product.producto.descripcion }</p>
+      <h5>En stock: { product.stock > 0 ? product.stock : <span>agotado</span> }</h5>
+      <button onClick={ restarStock } disabled={ product.stock < 1 }>{ product.stock > 0 ? 'COMPRAR' : 'SIN STOCK' }</button>
     </div>
   );
 }
